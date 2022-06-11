@@ -13,7 +13,7 @@ from flask_gravatar import Gravatar
 from flask import abort
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = os.getenv("APP_SECRET_KEY")
+app.config["SECRET_KEY"] = "8BYkEfBA6O6donzWlSihBXox7C0sKR6b"
 ckeditor = CKEditor(app)
 Bootstrap(app)
 gravatar = Gravatar(app, size=100, rating="g", default="retro",
@@ -102,15 +102,13 @@ def register():
             flash("This email already exists, try logging in!")
             return redirect(url_for("login"))
         else:
-            new_user = User(
-                name=form.name.data,
-                email=form.email.data,
-                password=generate_password_hash(
+            new_user = User()
+            new_user.name=form.name.data
+            new_user.email=form.email.data
+            new_user.password=generate_password_hash(
                     form.password.data,
                     method="pbkdf2:sha256",
-                    salt_length=8
-                )
-            )
+                    salt_length=8)
             db.session.add(new_user)
             db.session.commit()
 
