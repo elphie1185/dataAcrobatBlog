@@ -19,13 +19,6 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-          {{ ckeditor.load() }}
-          {{ ckeditor.config(name='comment') }}
-          {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "secondary"}) }}
-        </div>
-      </div>
     </div>
   </header>
 
@@ -46,19 +39,28 @@
 
 <!--           Comments Area -->
           <div class="col-lg-8 col-md-10 mx-auto comment">
+            {% if comments:  %}
               <ul class="commentList">
+                {% for comment in comments:  %}
                 <li>
                     <div class="commenterImage">
                       <img src="https://pbs.twimg.com/profile_images/744849215675838464/IH0FNIXk.jpg"/>
                     </div>
                     <div class="commentText">
-                      <p>Some comment</p>
-                      <span class="date sub-text">comment author name</span>
-
+                      <p>{{ comment.comment }}</p>
+                      <span class="date sub-text">{{ comment.comment_author }}</span>
                     </div>
                 </li>
+                {% endfor %}
               </ul>
-
+            {% endif %}
+            <div class="row">
+              <div class="col-lg-12 col-md-10 mx-auto">
+                {{ ckeditor.load() }}
+                {{ ckeditor.config(name='comment') }}
+                {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "secondary"}) }}
+              </div>
+            </div>
             </div>
           </div>
       </div>

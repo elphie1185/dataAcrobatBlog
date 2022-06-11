@@ -69,7 +69,7 @@ class Comment(db.Model):
     text = db.Column(db.Text, nullable=False)
 
 
-db.create_all()
+# db.create_all()
 
 
 def admin_only(f):
@@ -147,7 +147,8 @@ def logout():
 def show_post(post_id):
     requested_post = BlogPost.query.get(post_id)
     comment_form = CommentForm()
-    if comment_form.validate_on_submit:
+    comments = Comment.query.all()
+    if comment_form.validate_on_submit():
         if current_user.is_authenticated:
             new_comment = Comment(
                 text=comment_form.comment_text.data,
@@ -156,7 +157,9 @@ def show_post(post_id):
             )
             db.session.add(new_comment)
             db.session.commit()
-            return render_template("post.html", post=requested_post, form=comment_form, current_user=current_user)
+            return render_template("post.html", post=requested_post,
+                                   user=current_user, form=comment_form,
+                                   comments=comments)
         else:
             flash("You need to login or register to comment.")
             return redirect(url_for("login"))
