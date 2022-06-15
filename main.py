@@ -103,12 +103,12 @@ def register():
             return redirect(url_for("login"))
         else:
             new_user = User()
-            new_user.name=form.name.data
-            new_user.email=form.email.data
-            new_user.password=generate_password_hash(
-                    form.password.data,
-                    method="pbkdf2:sha256",
-                    salt_length=8)
+            new_user.name = form.name.data
+            new_user.email = form.email.data
+            new_user.password = generate_password_hash(
+                form.password.data,
+                method="pbkdf2:sha256",
+                salt_length=8)
             db.session.add(new_user)
             db.session.commit()
 
